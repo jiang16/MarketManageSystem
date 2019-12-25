@@ -4,3 +4,4 @@
 .out
 .project
 /src/main/resources/application.yml
+.target
