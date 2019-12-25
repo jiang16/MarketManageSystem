@@ -1,0 +1,15 @@
+spring: 
+    http: 
+        encoding: 
+            force: true
+            charset: UTF-8
+            enable: true
+    datasource:
+        url: jdbc:mysql://xxxxxxxxx/xxxx?useUnicode=true&characterEncoding=UTF-8
+        username: 
+        password: 
+        driver-class-name: com.mysql.jdbc.Driver
+server: 
+    port: 8012
+    tomcat:
+        uri-encoding: UTF-8
