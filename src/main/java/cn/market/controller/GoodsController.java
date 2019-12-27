@@ -2,6 +2,9 @@ package cn.market.controller;
 
 
 
+import cn.market.service.GoodsService;
+import cn.market.service.ReturnRecordService;
+import cn.market.service.SaleRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,25 +32,51 @@ import cn.market.util.UpdateGood;
 public class GoodsController {
 
 	@Autowired
-	private UserService service;
-	
+	private GoodsService goodsService;
+	@Autowired
+	private ReturnRecordService returnRecordService;
+	@Autowired
+	private SaleRecordService saleRecordService;
+
+	/**
+	 * 删除退货记录
+	 * @param goodid
+	 * @return
+	 */
 	@PostMapping("delReturnRecord")
 	public Result delReturn(@RequestBody String goodid) {
-		return service.delReturnRecord(goodid);
+		return returnRecordService.delReturnRecord(goodid);
 	}
+
+	/**
+	 * 获取全部退货记录
+	 * @param page
+	 * @return
+	 */
 	@PostMapping("/allReturnGoods")
 	public Result getReturn(@RequestBody  PageHelper page) {
 		
-		return service.getAllReturnGood(page);
+		return returnRecordService.getAllReturnGood(page);
 	}
+
+	/**
+	 * 获取退货商品
+	 * @param good
+	 * @return
+	 */
 	@PostMapping("returngood")
 	public Result getGood(@RequestBody ReturnGood good) {
-		return service.returnGood(good);
+		return returnRecordService.returnGood(good);
 	}
-	
+
+	/**
+	 * 获取单个商品
+	 * @param goodid
+	 * @return
+	 */
 	@PostMapping("/getGoodsInfo")
 	public Result getInfo(@RequestBody String goodid) {
-		return service.getGoodInfo(goodid);
+		return goodsService.getGoodInfo(goodid);
 	}
 	
 	/*
@@ -56,48 +85,54 @@ public class GoodsController {
 	@PostMapping("/allorder")
 	public Result getOrder(@RequestBody PageHelper page)
 	{
-		return service.getAllOrder(page);
+		return saleRecordService.getAllOrder(page);
 	}
-	/*
-	 * 日销售额
+
+	/**
+	 * 商品进货
+	 * @param good
+	 * @return
 	 */
 	@PostMapping("/addStock")
 	public Result addStock(@RequestBody AddGood good) {
-		System.out.println(good.getSupplier());
-		return service.AddStock(good);
+
+		return goodsService.AddStock(good);
 	}
-	
+
+	/*
+	 * 日销售额
+	 */
 	@PostMapping("/dayPrice")
 	public Result getDayPrice() {
-		return service.GetDayPrice();
+		return saleRecordService.GetDayPrice();
 	}
 	/*
 	 * 统计商品销售量
 	 */
 	@PostMapping("/goodQuantity")
 	public Result getGoodQuantity() {
-		return service.CountGoodQuantity();
+		return saleRecordService.CountGoodQuantity();
 	}
 	/*
 	 * 销售商品，减去数据库中的库存
 	 */
 	@PostMapping("/subGoodStock")
 	public Result subGoodStock(@RequestBody SelGood good) {
-		return service.subGoodStock(good);
+		return goodsService.subGoodStock(good);
 	}
 	/*
 	 * 更新商品价格
 	 */
 	@PostMapping("/updateGoodPrice")
 	public Result updateGoodPrice(@RequestBody UpdateGood good) {
-		return service.updateGoodPrice(good);
+		return goodsService.updateGoodPrice(good);
 	}
 	/*
 	 * 批量删除商品
 	 */
 	@PostMapping("/delGoodsByGoodName")
 	public Result delGoodsByGoodName(@RequestBody DelGood delgood) {
-		return service.delGoodsByGoodName(delgood);
+		return goodsService.delGoodsByGoodName(delgood);
 		
 	}
 	
@@ -107,14 +142,14 @@ public class GoodsController {
 	 */
 	@PostMapping("/delOneGood")
 	public Result delOneGood(@RequestBody Search search) {
-		return service.delOneGood(search);
+		return goodsService.delOneGood(search);
 	}
 	/*
 	 * 获取全部商品
 	 */
    @PostMapping("/listAllGoods")
    public Result getAllGoods(@RequestBody PageHelper page) {
-	   return service.getGoods(page);
+	   return goodsService.getGoods(page);
    }
    
    /*
@@ -122,7 +157,7 @@ public class GoodsController {
     */
    @PostMapping("/listStandardGoods")
    public Result getStandardGood(@RequestBody PageHelper page) {
-	   return service.getStandardGoods(page);
+	   return goodsService.getStandardGoods(page);
    }
    
    /*
@@ -130,7 +165,7 @@ public class GoodsController {
     */
    @PostMapping("/listWeightGoods")
    public Result getWeightGoods(@RequestBody PageHelper page) {
-	   return service.getWeightGoods(page);
+	   return goodsService.getWeightGoods(page);
    }
 
 }

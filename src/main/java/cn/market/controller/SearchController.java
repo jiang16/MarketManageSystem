@@ -23,7 +23,8 @@ import cn.market.util.SearchOrder;
 public class SearchController {
 	@Autowired
 	private SearchService searchService;
-	
+
+
 	@PostMapping("/getOrder")
     public Result getOrder(@RequestBody Order order) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -36,6 +37,12 @@ public class SearchController {
 	  
 		return searchService.getOrderByDate(norder);
 	}
+
+	/**
+	 * 查询商品
+	 * @param search
+	 * @return
+	 */
 	@PostMapping("/getInputData")
    public Result getInputData(@RequestBody Search search) {
 	

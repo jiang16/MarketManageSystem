@@ -7,9 +7,9 @@ public class Result {
 	private Object data;
 	private String[] dataname;
 	private String[] goodnum;
-	//ĞÂÔö totalCount¡¢totalPage
-		private int totalCount;
-		private int totalPage;
+	//æ–°å¢ totalCountã€totalPage
+	private int totalCount;
+	private int totalPage;
 	public Integer getCode() {
 		return code;
 	}

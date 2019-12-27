@@ -1,6 +1,7 @@
 package cn.market.service;
 
 import cn.market.bean.Goods;
+import cn.market.dao.GoodsDao;
 import cn.market.dao.UserDao;
 import cn.market.util.Result;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -24,7 +25,7 @@ import java.util.List;
 public class FileService {
 		
 	@Autowired
-	private UserDao dao;
+	private GoodsDao dao;
 	/*
 	 * 获取表中数据,并存入数据库，再获取
 	 */

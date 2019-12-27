@@ -2,6 +2,8 @@ package cn.market.service;
 
 import java.util.List;
 
+import cn.market.dao.GoodsDao;
+import cn.market.dao.SaleRecordDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +20,10 @@ import cn.market.util.SearchOrder;
 public class SearchService {
 	
 	@Autowired
-	private UserDao dao;
-	
+	private GoodsDao dao;
+	@Autowired
+	private SaleRecordDao saleRecordDao;
+
 	public Result selectGood(Search search) {
 		 search.getPagination().setStart((search.getPagination().getCurrentPage()-1)*search.getPagination().getPageSize());
 		 search.getPagination().setEnd(search.getPagination().getPageSize());
@@ -69,9 +73,9 @@ public class SearchService {
 			//查询分页数据
 			System.out.println(order.getPaginationOrder().getStart());
 			System.out.println(order.getPaginationOrder().getEnd());
-			list = dao.selectOrderByDate(order.getPaginationOrder(), order);
+			list = saleRecordDao.selectOrderByDate(order.getPaginationOrder(), order);
 			//查询数据总数
-			totalCount = dao.selectOrderCountByDate(order);
+			totalCount = saleRecordDao.selectOrderCountByDate(order);
 			//为PageHelper对象设置分配记录数，同时自动设置总页数
 			order.getPaginationOrder().setTotalCount(totalCount);
 			result.setTotalCount(totalCount);
