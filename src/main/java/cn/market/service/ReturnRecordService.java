@@ -29,6 +29,7 @@ public class ReturnRecordService {
         result.setSuccess(true);
         try {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+            System.out.println(good.getGoodid());
             dao.InsertReturnRecord(good, df.format(new Date()));
             goodsDao.delGood(good.getGoodid());
             result.setCode(1);

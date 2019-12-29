@@ -21,7 +21,6 @@ public class FileController {
 		
     @PostMapping(value = "/getFileData")
     public Result uploadFile(@RequestParam("file") MultipartFile file){
-              
       return fileService.getFileDate(file);
         
     }

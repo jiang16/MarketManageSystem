@@ -2,6 +2,7 @@ package cn.market.controller;
 
 
 
+import cn.market.bean.Goods;
 import cn.market.service.GoodsService;
 import cn.market.service.ReturnRecordService;
 import cn.market.service.SaleRecordService;
@@ -123,9 +124,9 @@ public class GoodsController {
 	/*
 	 * 更新商品价格
 	 */
-	@PostMapping("/updateGoodPrice")
-	public Result updateGoodPrice(@RequestBody UpdateGood good) {
-		return goodsService.updateGoodPrice(good);
+	@PostMapping("/updateGood")
+	public Result updateGoodPrice(@RequestBody Goods good) {
+		return goodsService.updateGood(good);
 	}
 	/*
 	 * 批量删除商品

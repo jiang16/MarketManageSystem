@@ -38,9 +38,21 @@ public class GoodsService {
         try {
 
             good = dao.selectSupplierInfo(goodid);
+            if(good!=null) {
+                result.setCode(1);
+                result.setMessage("查询成功");
+                result.setData(good);
+                return result;
+            }
+            else {
 
-        }
-        catch(Exception e) {
+                result.setCode(500);
+                result.setSuccess(false);
+                result.setMessage("输入的商品号不存在,请核对后再输入!");
+                return result;
+            }
+
+        } catch(Exception e) {
 
             e.printStackTrace();
             result.setCode(500);
@@ -48,19 +60,7 @@ public class GoodsService {
             result.setMessage("信息查询失败");
             return result;
         }
-        if(good!=null) {
-            result.setCode(1);
-            result.setMessage("查询成功");
-            result.setData(good);
-            return result;
-        }
-        else {
 
-            result.setCode(500);
-            result.setSuccess(false);
-            result.setMessage("输入的商品号不存在,请核对后再输入!");
-            return result;
-        }
 
     }
     /*
@@ -256,7 +256,7 @@ public class GoodsService {
                 if(i.getGoodid().equals(good.getGoodid())) {
                     flag=0;
                     for(int j=0;j<i.getStock().length();j++) {
-                        if((i.getStock().charAt(j)<'0'||i.getStock().charAt(j)>'9')&&(i.getStock().charAt(j)!='.')) {
+                        if((i.getStock().charAt(j)<'0'||i.getStock().charAt(j)>'9')&&(i.getStock().charAt(j)!='.')&&(i.getStock().charAt(j)!='-')) {
                             flagStock= String.valueOf(i.getStock().charAt(j));
                             break;
                         }
@@ -264,7 +264,6 @@ public class GoodsService {
                     String[] old = i.getStock().split(flagStock);
                     String count = String.valueOf(Integer.parseInt(old[0])+Integer.parseInt(good.getPurchasenum()));
                     String newstock = count+flagStock;
-                    System.out.println(newstock);
                     i.setStock(newstock);
                     dao.updateGood(newstock,i.getGoodname());
                     break;
@@ -286,24 +285,13 @@ public class GoodsService {
     /*
      * 更新商品价格
      */
-    public Result updateGoodPrice(UpdateGood good) {
-        good.getPagination().setStart((good.getPagination().getCurrentPage()-1)*good.getPagination().getPageSize());
-        good.getPagination().setEnd(good.getPagination().getPageSize());
-
+    public Result updateGood(Goods good) {
         Result result = new Result();
         result.setSuccess(true);
         List<Goods> list =null;
-        Integer totalCount = null;
         try {
-            dao.updateGoodPrice(good);
+            dao.update(good);
             //查询分页数据
-            list = dao.selectGoodByPage(good.getPagination());
-            //查询数据总数
-            totalCount = dao.getAllGoods();
-            //为PageHelper对象设置分配记录数，同时自动设置总页数
-            good.getPagination().setTotalCount(totalCount);
-            result.setTotalCount(totalCount);
-            result.setTotalPage(good.getPagination().getTotalPage());
             result.setCode(1);
             result.setMessage("更新成功！");
             result.setData(list);
@@ -331,9 +319,25 @@ public class GoodsService {
         System.out.println(selgood.getPradio());
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         try {
+
+            //查询数据库中商品库存是否足够
+            for(Goods good:selgood.getContent()) {
+                String flagStock= null;
+                for(int j=0;j<good.getStock().length();j++) {
+                    if((good.getStock().charAt(j)<'0'||good.getStock().charAt(j)>'9')&&(good.getStock().charAt(j)!='.')&&(good.getStock().charAt(j)!='-')) {
+                        flagStock= String.valueOf(good.getStock().charAt(j));
+                        break;
+                    }
+                }
+                String[] old = good.getStock().split(flagStock);
+                if (Integer.parseInt(old[0])<Integer.parseInt(good.getBuy_num())) {
+                    //库存不足
+                    throw new Exception("【"+good.getGoodname()+"】库存不足，请重新选择!");
+                }
+            }
+
             for(Goods good:selgood.getContent()) {
                 if(selgood.getPradio().equals("普通")) {
-                    System.out.println(selgood.getSaleman()+"fsdfs");
                     saleRecordDao.InsertGoodRecord(good,good.getPrice(),df.format(new Date()),selgood.getSaleman());
                 }
                 else {
@@ -344,7 +348,7 @@ public class GoodsService {
                 //更新库存量
                 String flagStock= null;
                 for(int j=0;j<good.getStock().length();j++) {
-                    if((good.getStock().charAt(j)<'0'||good.getStock().charAt(j)>'9')&&(good.getStock().charAt(j)!='.')) {
+                    if((good.getStock().charAt(j)<'0'||good.getStock().charAt(j)>'9')&&(good.getStock().charAt(j)!='.')&&(good.getStock().charAt(j)!='-')) {
                         flagStock= String.valueOf(good.getStock().charAt(j));
                         break;
                     }
@@ -377,7 +381,7 @@ public class GoodsService {
             e.printStackTrace();
             result.setCode(500);
             result.setSuccess(false);
-            result.setMessage("服务器错误");
+            result.setMessage(e.getMessage());
             return result;
         }
 

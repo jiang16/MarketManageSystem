@@ -1,8 +1,5 @@
 package cn.market.service;
 
-import cn.market.bean.Goods;
-import cn.market.bean.NewUser;
-import cn.market.bean.Order;
 import cn.market.bean.User;
 import cn.market.dao.UserDao;
 import cn.market.util.*;
@@ -36,7 +33,6 @@ public class UserService {
 		 }
 		 catch(Exception e) {
 			// 服务器异常处理
-			    System.out.println(e);
 				result.setMessage("服务器错误");
 				result.setSuccess(false);
 				result.setCode(500);
@@ -58,12 +54,11 @@ public class UserService {
 		try {
 			// 通过用户名查询用户
 			u = dao.login(user.getUsername());
-			
-			
+
 		} catch (Exception e) {
 			
 			// 服务器异常处理
-			result.setMessage("服务器错误");
+			result.setMessage(e.getMessage());
 			result.setSuccess(false);
 			result.setCode(500);
 			return result;
@@ -88,7 +83,7 @@ public class UserService {
 				 }
 				 catch(Exception e) {
 					// 服务器异常处理
-						result.setMessage("服务器错误");
+						result.setMessage(e.getMessage());
 						result.setSuccess(false);
 						result.setCode(500);
 						return result;
@@ -119,7 +114,6 @@ public class UserService {
 		result.setSuccess(true);
 		int flag =1;
 		try{
-			List<NewUser> nlist = new ArrayList<NewUser>();
 			List<User> uu = dao.getAllUser();
 			for(User i:uu) {
 				if(i.getUserid().equals(user.getUserid())) {
@@ -135,26 +129,8 @@ public class UserService {
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 					dao.InsertUser(user);
 					List<User> list = dao.getAllUserInfo();
-					//查询数据总数
-					for(User u:list) {
-						String strDate = format.format(u.getBirthdate());
-						NewUser nuser = new NewUser();
-						nuser.setUserid(u.getUserid());
-						nuser.setUsername(u.getUsername());
-						nuser.setBirthdate(strDate);
-						nuser.setCount(u.getCount());
-						nuser.setExittime(u.getExittime());
-						nuser.setLogintime(u.getLogintime());
-						nuser.setPassword(u.getPassword());
-						nuser.setRole(u.getRole());
-						nuser.setSex(u.getSex());
-						nlist.add(nuser);
-					
-					}
-					
-					
 					result.setCode(1);
-					result.setData(nlist);
+					result.setData(list);
 					result.setMessage("添加成功");
 					return result;
 				}catch(Exception e) {
@@ -185,34 +161,15 @@ public class UserService {
 		//创建返回对象
 		Result result = new Result();
 		result.setSuccess(true);
-		List<User> list = null;
-		List<NewUser> nlist = new ArrayList<NewUser>();
+		List<User> list = new ArrayList<User>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			//查询分页数据
 			list = dao.getAllUserInfo();
-			//查询数据总数
-			
-			for(User u:list) {
-				String strDate = format.format(u.getBirthdate());
-				NewUser nuser = new NewUser();
-				nuser.setUserid(u.getUserid());
-				nuser.setUsername(u.getUsername());
-				nuser.setBirthdate(strDate);
-				nuser.setCount(u.getCount());
-				nuser.setExittime(u.getExittime());
-				nuser.setLogintime(u.getLogintime());
-				nuser.setPassword(u.getPassword());
-				nuser.setRole(u.getRole());
-				nuser.setSex(u.getSex());
-				nlist.add(nuser);
-			
-			}
-			
 			//为PageHelper对象设置分配记录数，同时自动设置总页数
 			result.setCode(1);
 			result.setMessage("查询成功");
-			result.setData(nlist);
+			result.setData(list);
 			return result;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -231,31 +188,14 @@ public class UserService {
 				Result result = new Result();
 				result.setSuccess(true);
 				List<User> list = null;
-				List<NewUser> nlist = new ArrayList<NewUser>();
+//				List<NewUser> nlist = new ArrayList<NewUser>();
 				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				try {
 					dao.delUser(user);
 					list = dao.getAllUserInfo();
-					
-					for(User u:list) {
-						String strDate = format.format(u.getBirthdate());
-						NewUser nuser = new NewUser();
-						nuser.setUserid(u.getUserid());
-						nuser.setUsername(u.getUsername());
-						nuser.setBirthdate(strDate);
-						nuser.setCount(u.getCount());
-						nuser.setExittime(u.getExittime());
-						nuser.setLogintime(u.getLogintime());
-						nuser.setPassword(u.getPassword());
-						nuser.setRole(u.getRole());
-						nuser.setSex(u.getSex());
-						nlist.add(nuser);
-					
-					}
-					
 					result.setCode(1);
 					result.setMessage("删除成功");
-					result.setData(nlist);
+					result.setData(list);
 					return result;
 				}catch(Exception e) {
 					e.printStackTrace();
@@ -273,30 +213,14 @@ public class UserService {
 		Result result = new Result();
 		result.setSuccess(true);
 		List<User> list = null;
-		List<NewUser> nlist = new ArrayList<NewUser>();
+//		List<NewUser> nlist = new ArrayList<NewUser>();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			dao.UpdateUser(user);
 			list = dao.getAllUserInfo();
-
-			for(User u:list) {
-				String strDate = format.format(u.getBirthdate());
-				NewUser nuser = new NewUser();
-				nuser.setUserid(u.getUserid());
-				nuser.setUsername(u.getUsername());
-				nuser.setBirthdate(strDate);
-				nuser.setCount(u.getCount());
-				nuser.setExittime(u.getExittime());
-				nuser.setLogintime(u.getLogintime());
-				nuser.setPassword(u.getPassword());
-				nuser.setRole(u.getRole());
-				nuser.setSex(u.getSex());
-				nlist.add(nuser);
-
-			}
 			result.setCode(1);
 			result.setMessage("更改成功");
-			result.setData(nlist);
+			result.setData(list);
 			return result;
 		}catch(Exception e) {
 			e.printStackTrace();

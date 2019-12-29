@@ -16,7 +16,7 @@ public interface GoodsDao {
     @Delete("delete from goods where goodid = #{goodid}")
     void delGood(@Param("goodid") String goodid);
 
-    //根据商品id查询供应商信息
+    //根据商品id查询信息
     @Select("select * from goods where goodid = #{goodid}")
     Goods selectSupplierInfo(@Param("goodid")String goodid);
 
@@ -25,6 +25,9 @@ public interface GoodsDao {
     @Update("update goods set price=#{goods.newprice},memberprice=#{goods.newmemberprice} where goodname = #{goods.goodname}")
     void updateGoodPrice(@Param("goods") UpdateGood goods);
 
+    //更新商品
+    @Update("update goods set goodname = #{goods.goodname},stock=#{goods.stock},price=#{goods.price},memberprice=#{goods.memberprice},category=#{goods.category},supplier=#{goods.supplier},supplierphone=#{goods.supplierphone},supplieraddress=#{goods.supplieraddress} where goodid=#{goods.goodid}")
+    void update(@Param("goods") Goods goods);
 
 
     //更新商品库存数量

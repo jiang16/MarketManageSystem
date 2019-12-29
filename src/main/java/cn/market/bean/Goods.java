@@ -13,6 +13,7 @@ public class Goods {
     private String supplier;
     private String supplierphone;
     private String supplieraddress;
+
 	public String getGoodname() {
 		return goodname;
 	}
