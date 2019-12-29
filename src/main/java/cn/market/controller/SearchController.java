@@ -34,7 +34,8 @@ public class SearchController {
 		 norder.setStarttime(strstartDate);
 		 norder.setEndtime(strendDate);
 		 norder.setPaginationOrder(order.getPaginationOrder());
-	  
+
+//		 return null;
 		return searchService.getOrderByDate(norder);
 	}
 

@@ -36,6 +36,7 @@ public class SearchService {
 			try {
 				//查询分页数据
 				list = dao.selectVugeGood(search.getPagination(), search.getContent());
+				System.out.println(list.size());
 				//查询数据总数
 				totalCount = dao.selectGoodByVague(search.getContent());
 				//为PageHelper对象设置分配记录数，同时自动设置总页数
