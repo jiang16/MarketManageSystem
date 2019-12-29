@@ -41,6 +41,6 @@ public interface SaleRecordDao {
     List<GoodQuantity> getGoodQuantity();
 
     //将数据插入到销售记录数据库
-    @Insert("insert into salerecord values(#{good.goodid},#{man.userid},#{good.goodname},#{good.buy_num},#{price},#{saledate},#{man.username})")
+    @Insert("insert into salerecord(goodid,userid,goodname,salenum,price,saledate,saleman) values(#{good.goodid},#{man.userid},#{good.goodname},#{good.buy_num},#{price},#{saledate},#{man.username})")
     void InsertGoodRecord(@Param("good") Goods good, @Param("price") String price, @Param("saledate") String saledate, @Param("man") User man);
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public interface ReturnRecordDao {
 
     //增加退货记录
-    @Insert("insert into returnrecord values( #{good.goodid},#{good.salemanid},#{good.goodname},#{good.returnquantity},#{good.supplier},#{returndate},#{good.saleman})")
+    @Insert("insert into returnrecord(goodid,goodname,returnquantity,supplier,returndate,saleman) values( #{good.goodid},#{good.salemanid},#{good.goodname},#{good.returnquantity},#{good.supplier},#{returndate},#{good.saleman})")
     void InsertReturnRecord(@Param("good")ReturnGood good,@Param("returndate") String returndate);
 
     //删除退货记录

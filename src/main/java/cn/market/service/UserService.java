@@ -124,9 +124,9 @@ public class UserService {
 					return result;
 				}
 			}
+			//没有重复的id
 			if(flag==1) {
 				try {
-					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 					dao.InsertUser(user);
 					List<User> list = dao.getAllUserInfo();
 					result.setCode(1);
